@@ -59,6 +59,7 @@ app.get('/insertUser', (req, res) => {
 });
 
 app.get('/getUserNames', (req, res) => {
+    /*Sample GET Query*/
     con.query("select * from users",
         (err, resu) => {
             if (err) {
