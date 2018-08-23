@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script>
+        function hi() {
+            $.post({
+                url : "http://localhost:3000/getItemInfo",
+                contentType: 'application/json',
+                dataType:"json",
+                data : JSON.stringify( {
+                    itemid:14
+                }),
+                success : data => {
+                    console.log(data);
+                    $('#result').text(data.name);
+                },
+                error : err => {
+                    $('#result').text("Error");
+                }
+            })
+        }
+    </script>
+
+</head>
+<body>
+    <h1>Iks</h1>
+    <input type="button" content="Press Me" onclick="hi()"/>
+    <div id="result">
+
+    </div>
+</body>
+</html>
