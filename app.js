@@ -25,27 +25,44 @@ con.connect(function (err) {
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
+
 app.post('/getItemInfo', (req, res) => {
     /*
-        Parameters : { itemid : int }
-        Response Format : { error : msg : str } or { itemNum : str , ... }
+        Parameters : { itemId : str }
+        Response Format : { error msg : str } or { itemNum : str , ... }
      */
-    let itemId = req.body.itemid;
-    console.log(itemId);
-    con.query( util.format( "SELECT * FROM item WHERE itemNum = '%s' ", itemId ),
+    let itemId = req.body.itemId;
+    con.query( util.format( "SELECT * FROM item WHERE itemId = '%s';", itemId ),
         (err, result) => {
             if (err) {
                 console.log( err );
                 res.send("ERROR");
             }
             else {
-                let c = result.cost;
                 res.send(result);
             }
         });
 });
 
-
+app.post( '/insertItem' , ( req , res ) => {
+    /*
+        Paramerters : { itemId : str , type : str , cost : float , stockLeft : int , rPrice : float , wPrice : float }
+        Response Format : { error ms : str } or { success or failure }
+     */
+    let item = req.body;
+    //let s = util.format(" INSERT INTO item VALUES ( '%s' , '%s' , %f , %d , %f , %f );", req.itemId, item.type, item.cost, item.stockLeft, item.rPrice, item.wPrice);
+    console.log(item[type]);
+    /*con.query(util.format(" INSERT INTO item VALUES ( '%s' , '%s' , %f , %d , %f , %f );", item.itemId, item.type, item.cost, item.stockLeft, item.rPrice, item.wPrice)) ,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.send("ERROR");
+            }
+            else {
+                res.send(1);
+            }
+        }*/
+});
 
 
 app.get('/insertUser', (req, res) => {
