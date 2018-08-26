@@ -25,22 +25,28 @@ con.connect(function (err) {
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
-
-
 app.post('/getItemInfo', (req, res) => {
     /*
-    Parameters {itemid: int}
-    Response Format {error:{code:int,msg:str} or null, name: str, }
+        Parameters : { itemid : int }
+        Response Format : { error : msg : str } or { itemNum : str , ... }
      */
-    let itemid = req.body.itemid;
-    if (itemid) {
-        res.send(JSON.stringify({name: "Angi", size: "XL"}))
-    }
-    else {
-        res.send(JSON.stringify({error: {code: 1, msg: "Some error"}}))
-    }
-
+    let itemId = req.body.itemid;
+    console.log(itemId);
+    con.query( util.format( "SELECT * FROM item WHERE itemNum = '%s' ", itemId ),
+        (err, result) => {
+            if (err) {
+                console.log( err );
+                res.send("ERROR");
+            }
+            else {
+                let c = result.cost;
+                res.send(result);
+            }
+        });
 });
+
+
+
 
 app.get('/insertUser', (req, res) => {
     let email = req.query.username;
@@ -58,9 +64,9 @@ app.get('/insertUser', (req, res) => {
         });
 });
 
-app.get('/getUserNames', (req, res) => {
+/*app.get('/getUserNames', (req, res) => {
     /*Sample GET Query*/
-    con.query("select * from users",
+  /*  con.query("select * from users",
         (err, resu) => {
             if (err) {
                 console.log("some error", err);
@@ -74,6 +80,6 @@ app.get('/getUserNames', (req, res) => {
                 res.send(str);
             }
         });
-});
+});*/
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log('Example app listening on port 3000!'));
