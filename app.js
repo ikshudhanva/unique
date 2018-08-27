@@ -47,21 +47,20 @@ app.post('/getItemInfo', (req, res) => {
 app.post( '/insertItem' , ( req , res ) => {
     /*
         Paramerters : { itemId : str , type : str , cost : float , stockLeft : int , rPrice : float , wPrice : float }
-        Response Format : { error ms : str } or { success or failure }
+        Response Format : { error ms : str } or { success(1) or failure(0) }
      */
     let item = req.body;
-    //let s = util.format(" INSERT INTO item VALUES ( '%s' , '%s' , %f , %d , %f , %f );", req.itemId, item.type, item.cost, item.stockLeft, item.rPrice, item.wPrice);
-    console.log(item[type]);
-    /*con.query(util.format(" INSERT INTO item VALUES ( '%s' , '%s' , %f , %d , %f , %f );", item.itemId, item.type, item.cost, item.stockLeft, item.rPrice, item.wPrice)) ,
+    con.query(util.format(" INSERT INTO item VALUES ( '%s' , '%s' , %f , %d , %f , %f );", item.itemId, item.type, item.cost, item.stockLeft, item.rPrice, item.wPrice),
         (err, result) => {
             if (err) {
-                console.log(err);
-                res.send("ERROR");
+                //console.log(err);
+                res.send("0");
             }
             else {
-                res.send(1);
+                //console.log("SUCESS");
+                res.send("1");
             }
-        }*/
+        });
 });
 
 
