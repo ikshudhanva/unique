@@ -47,7 +47,7 @@ app.post('/getItemInfo', (req, res) => {
 app.post( '/insertItem' , ( req , res ) => {
     /*
         Paramerters : { itemId : str , type : str , cost : float , stockLeft : int , rPrice : float , wPrice : float }
-        Response Format : { error ms : str } or { success(1) or failure(0) }
+        Response Format : { error message : str } or { success(1) or failure(0) }
      */
     let item = req.body;
     con.query(util.format(" INSERT INTO item VALUES ( '%s' , '%s' , %f , %d , %f , %f );", item.itemId, item.type, item.cost, item.stockLeft, item.rPrice, item.wPrice),
@@ -58,6 +58,24 @@ app.post( '/insertItem' , ( req , res ) => {
             }
             else {
                 //console.log("SUCESS");
+                res.send("1");
+            }
+        });
+});
+
+app.post( '/updateStock' , ( req , res ) => {
+    /*Parameters : { itemId : str , stockPurchased : int , datePurchased : str( YYYY-MM-DD format ) }
+    Response Format : { error message : str } or { success(1) or failure(0) }
+     */
+    let item = req.body;
+    con.query( util.format( " INSERT INTO inventory VALUES ( '%s' , %d , '%s' );", item.itemId, item.stockPurchased, item.datePurchased),
+        ( error, result ) => {
+            if (error) {
+                console.log(error);
+                res.send("0");
+            }
+            else {
+                console.log("SUCCESS");
                 res.send("1");
             }
         });
